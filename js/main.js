@@ -1,5 +1,6 @@
 import { generateStarProfile } from './core/calculator.js';
 import { STARS } from './data/constants.js';
+import { renderFortune } from './features/fortune.js';
 
 // 初始化主題切換
 function initTheme() {
