@@ -1,191 +1,94 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>六星占術計算器</title>
-    <style>
-        /* 現代化、極簡的手機友善 UI 設計 */
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #f0f2f5; 
-            margin: 0; 
-            padding: 20px; 
-            color: #1f1f1f; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh;
-        }
-        .container { 
-            width: 100%;
-            max-width: 400px; 
-            background: #ffffff; 
-            padding: 30px 25px; 
-            border-radius: 24px; 
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08); 
-        }
-        h1 { 
-            font-size: 22px; 
-            text-align: center; 
-            color: #0b57d0; 
-            margin-top: 0;
-            margin-bottom: 24px;
-        }
-        label { 
-            display: block; 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: #444;
-            margin-bottom: 8px; 
-        }
-        input[type="date"] { 
-            width: 100%; 
-            padding: 14px; 
-            border: 1px solid #c7c7c7; 
-            border-radius: 12px; 
-            font-size: 16px; 
-            box-sizing: border-box; 
-            background-color: #f8f9fa;
-            transition: border-color 0.2s;
-        }
-        input[type="date"]:focus {
-            outline: none;
-            border-color: #0b57d0;
-            background-color: #fff;
-        }
-        button { 
-            width: 100%; 
-            padding: 16px; 
-            margin-top: 24px; 
-            background-color: #0b57d0; 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: background 0.2s; 
-            box-shadow: 0 2px 6px rgba(11, 87, 208, 0.3);
-        }
-        button:active { 
-            background-color: #0842a0; 
-            transform: scale(0.98);
-        }
-        .result-box { 
-            margin-top: 24px; 
-            padding: 20px; 
-            background: #e8f0fe; 
-            border-radius: 16px; 
-            display: none; 
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        .star-title { 
-            font-size: 22px; 
-            font-weight: 800; 
-            color: #0b57d0; 
-            text-align: center; 
-            margin-bottom: 12px; 
-        }
-        .desc { 
-            font-size: 15px; 
-            line-height: 1.6; 
-            color: #3c4043;
-        }
-        .highlight {
-            color: #d93025;
-            font-weight: bold;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>六星占術計算器</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<style>
+  /* 為了保持篇幅簡潔，請保留上一個版本中完整的 <style> 內容 */
+  /* --- 在此貼上所有 CSS 樣式 --- */
+  :root, [data-theme="light"] { --color-bg: #f7f4f0; --color-surface: #fdfcfa; --color-border: #ccc8c0; --color-text: #1a1714; --color-text-muted: #6b6760; --color-primary: #6b3fa0; --color-primary-highlight: #e8dff5; --color-accent: #c8a000; --color-accent-light: #fff8da; --shadow-sm: 0 1px 3px rgba(60,40,80,0.08); --shadow-md: 0 4px 16px rgba(60,40,80,0.12); --radius-md: 10px; --radius-xl: 24px; --radius-full: 9999px; --font-body: 'Satoshi','Noto Sans TC',sans-serif; --transition: 180ms ease; --text-xs: 0.875rem; --text-sm: 1rem; --text-base: 1.125rem; --text-lg: 1.25rem; --text-2xl: 2.25rem; }
+  [data-theme="dark"] { --color-bg: #0f0d12; --color-surface: #16131c; --color-border: #3a3448; --color-text: #e8e4f0; --color-text-muted: #8a8498; --color-primary: #a87de0; --color-primary-highlight: #2e1f4a; --color-accent: #f0c030; --color-accent-light: #2a2000; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.6;transition:background var(--transition),color var(--transition);}
+  input,button{font:inherit;color:inherit;} button{cursor:pointer;border:none;background:none;}
+  .app-container{max-width:680px;margin:0 auto;padding:0 1.5rem 4rem;}
+  .app-header{padding:2rem 0 1.5rem;display:flex;justify-content:space-between;align-items:center;}
+  .logo{display:flex;align-items:center;gap:0.75rem;} .logo-icon{width:44px;height:44px;background:var(--color-primary);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;} .logo-text{font-size:var(--text-lg);font-weight:700;} .logo-text span{color:var(--color-primary);}
+  .theme-toggle{width:40px;height:40px;border-radius:var(--radius-full);border:1.5px solid var(--color-border);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);background:var(--color-surface);}
+  .hero-card{background:var(--color-primary);border-radius:var(--radius-xl);padding:2.5rem 2rem;margin-bottom:1.5rem;color:#fff;} .hero-title{font-size:var(--text-2xl);font-weight:700;line-height:1.15;margin-bottom:0.5rem;} .hero-subtitle{font-size:var(--text-sm);opacity:0.75;}
+  .form-card{background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-xl);padding:2rem;margin-bottom:1.5rem;box-shadow:var(--shadow-sm);} .form-card h2{font-size:var(--text-xs);font-weight:700;margin-bottom:1.25rem;color:var(--color-text-muted);text-transform:uppercase;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;} .form-group{display:flex;flex-direction:column;gap:0.375rem;} label{font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);}
+  input[type="number"]{background:var(--color-bg);border:1.5px solid var(--color-border);border-radius:var(--radius-md);padding:0.75rem 1rem;font-size:var(--text-base);font-weight:500;width:100%;} input[type="number"]:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-highlight);}
+  .btn-calculate{width:100%;padding:0.9rem 1.5rem;background:var(--color-primary);color:#fff;border-radius:var(--radius-md);font-size:var(--text-base);font-weight:700;}
+  .result-card{background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-md);display:none;}
+  .result-header{background:linear-gradient(135deg,var(--color-primary),#7700cc);padding:2rem;text-align:center;color:#fff;} .result-star-badge{display:inline-flex;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:var(--radius-full);padding:0.375rem 1rem;font-size:var(--text-xs);font-weight:600;} .result-star-name{font-size:3rem;font-weight:700;} .result-reigou{display:none;align-items:center;justify-content:center;gap:0.375rem;background:rgba(255,215,0,0.2);border:1px solid rgba(255,215,0,0.4);border-radius:var(--radius-full);padding:0.375rem 1rem;font-size:var(--text-xs);font-weight:600;color:#ffe066;margin:0.5rem auto 0;width:fit-content;}
+  .result-body{padding:1.5rem 2rem;} .result-steps h3, .personality-section h3, .daissakkai-title{font-size:var(--text-xs);font-weight:700;color:var(--color-text-muted);text-transform:uppercase;margin-bottom:0.875rem;}
+  .step-list{display:flex;flex-direction:column;gap:0.5rem;} .step-item{display:flex;gap:0.75rem;padding:0.75rem 1rem;background:var(--color-bg);border-radius:var(--radius-md);font-size:var(--text-sm);} .step-num{width:24px;height:24px;background:var(--color-primary);color:#fff;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;}
+  .result-divider{height:1px;background:var(--color-border);margin:1.5rem 0;}
+  .trait-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;} .trait-item{padding:1rem;background:var(--color-bg);border-radius:var(--radius-md);} .trait-label{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;margin-bottom:0.375rem;} .trait-value{font-size:var(--text-base);font-weight:700;}
+  .daissakkai-card{background:var(--color-accent-light);border:1.5px solid var(--color-accent);border-radius:var(--radius-md);padding:1.25rem;margin-top:0.75rem;} .year-tag{display:inline-block;background:rgba(200,160,0,0.2);color:var(--color-accent);border-radius:var(--radius-full);padding:0.15rem 0.6rem;font-size:var(--text-xs);font-weight:600;margin:0.15rem;}
+  .personality-text{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7;} .reigou-box{margin-top:1rem;padding:1rem;background:#faf5ff;border:1.5px solid var(--color-primary-highlight);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-muted);display:none;}
+  .range-table{width:100%;border-collapse:collapse;font-size:var(--text-sm);margin-top:0.5rem;} .range-table td{padding:0.5rem 0.75rem;border-bottom:1px solid var(--color-border);} .range-table tr.active td{background:var(--color-primary-highlight);color:var(--color-primary);font-weight:700;}
+</style>
 </head>
 <body>
-
-<div class="container">
-    <h1>✨ 六星占術精確計算器</h1>
-    <label for="bday">請選擇您的出生日期：</label>
-    <!-- 預設帶入示範日期以方便測試 -->
-    <input type="date" id="bday" value="1993-08-27">
-    
-    <button onclick="calculate()">計算我的命格</button>
-
-    <div id="result-box" class="result-box">
-        <div id="star-title" class="star-title"></div>
-        <div id="desc" class="desc"></div>
+<div class="app-container">
+  <header class="app-header">
+    <div class="logo">
+      <div class="logo-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9H22L16 13.5L18.5 21L12 16.5L5.5 21L8 13.5L2 9H9.5L12 2Z" fill="white"/></svg></div>
+      <div class="logo-text">六星<span>占術</span></div>
     </div>
+    <button class="theme-toggle" data-theme-toggle>🌙</button>
+  </header>
+  <div class="hero-card">
+    <div class="hero-title">找出你的<br>命運之星</div>
+    <div class="hero-subtitle">根據細木數子六星占術，輸入生日即可算出你的星人命格</div>
+  </div>
+  <div class="form-card">
+    <h2>✦ 輸入生日</h2>
+    <div class="form-row">
+      <div class="form-group"><label>年份</label><input type="number" id="year" placeholder="1993"></div>
+      <div class="form-group"><label>月份</label><input type="number" id="month" placeholder="8"></div>
+      <div class="form-group"><label>日期</label><input type="number" id="day" placeholder="26"></div>
+    </div>
+    <button class="btn-calculate" id="calculate-btn">⭐ 開始占術計算</button>
+  </div>
+  <div class="result-card" id="result">
+    <div class="result-header">
+      <div class="result-star-badge" id="result-badge">命格結果</div>
+      <div class="result-star-name" id="result-name">—</div>
+      <div class="result-reigou" id="result-reigou">✦ 靈合星人</div>
+    </div>
+    <div class="result-body">
+      <div class="result-steps"><h3>📐 計算過程</h3><div class="step-list" id="step-list"></div></div>
+      <div class="result-divider"></div>
+      <div class="trait-grid">
+        <div class="trait-item"><div class="trait-label">命數</div><div class="trait-value" id="trait-unmei">—</div></div>
+        <div class="trait-item"><div class="trait-label">星數</div><div class="trait-value" id="trait-hoshi">—</div></div>
+        <div class="trait-item"><div class="trait-label">生肖</div><div class="trait-value" id="trait-junishi">—</div></div>
+        <div class="trait-item"><div class="trait-label">陰陽</div><div class="trait-value" id="trait-inyo">—</div></div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="personality-section">
+        <h3>🌟 星人特質</h3>
+        <p class="personality-text" id="personality-text"></p>
+        <div class="reigou-box" id="reigou-box"></div>
+      </div>
+      <div class="daissakkai-card">
+        <div class="daissakkai-title">⚡ 近年大殺界（天中殺）</div>
+        <div id="daissakkai-years"></div>
+      </div>
+      <div style="margin-top:1.5rem;">
+        <div class="result-steps"><h3>📊 星數對照表</h3><table class="range-table" id="range-table"></table></div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<script>
-function calculate() {
-    const dateStr = document.getElementById('bday').value;
-    if(!dateStr) {
-        alert('請先選擇您的出生日期！');
-        return;
-    }
-    
-    const [y, m, d] = dateStr.split('-').map(Number);
-    
-    // 利用西元 1993 年 8 月 27 日為基準點（星數 17）推算 60 甲子日干支
-    const refDate = new Date(Date.UTC(1993, 7, 27)); 
-    const targetDate = new Date(Date.UTC(y, m - 1, d));
-    const diffDays = Math.round((targetDate - refDate) / 86400000);
-    
-    // 計算星數 (1~60)
-    let starNum = (17 + (diffDays % 60)) % 60;
-    if (starNum <= 0) starNum += 60;
-    
-    // 判定主星與靈合星對應關係、以及大殺界生肖 (0=子, 1=丑... 11=亥)
-    let starName = "";
-    let oppositeStar = "";
-    let killZone = []; 
-    
-    if (starNum >= 1 && starNum <= 10) { 
-        starName = "土星"; oppositeStar = "天王星"; killZone = [10, 11]; // 戌亥
-    } else if (starNum >= 11 && starNum <= 20) { 
-        starName = "金星"; oppositeStar = "木星"; killZone = [8, 9];    // 申酉
-    } else if (starNum >= 21 && starNum <= 30) { 
-        starName = "火星"; oppositeStar = "水星"; killZone = [6, 7];    // 午未
-    } else if (starNum >= 31 && starNum <= 40) { 
-        starName = "天王星"; oppositeStar = "土星"; killZone = [4, 5];  // 辰巳
-    } else if (starNum >= 41 && starNum <= 50) { 
-        starName = "木星"; oppositeStar = "金星"; killZone = [2, 3];    // 寅卯
-    } else if (starNum >= 51 && starNum <= 60) { 
-        starName = "水星"; oppositeStar = "火星"; killZone = [0, 1];    // 子丑
-    }
-    
-    // 判斷陰陽 (依據出生年生肖：西元 1900 年為子年)
-    let zhi = (y - 1900) % 12;
-    if (zhi < 0) zhi += 12;
-    
-    // 偶數為陽 (+)，奇數為陰 (-)
-    const isYang = (zhi % 2 === 0); 
-    const sign = isYang ? "(+)" : "(-)";
-    
-    // 判斷是否為靈合星人 (出生年生肖剛好落在主星大殺界)
-    const isReigo = killZone.includes(zhi);
-    
-    // 組合結果標題
-    let finalResult = `${starName}人 ${sign}`;
-    if(isReigo) finalResult += ` 靈合星人`;
-    
-    document.getElementById('star-title').innerText = finalResult;
-    
-    // 組合解說文字，並修正錯誤的對應關係
-    let descHtml = `推算星數：<b>${starNum}</b>。<br><br>`;
-    
-    if (isReigo) {
-        descHtml += `您擁有特殊的靈合星人命格！<br>除了表面上具備「<b>${starName}人</b>」的性格特徵外，潛在的另一面強烈受到正對面的「<span class="highlight">${oppositeStar}人</span>」影響。<br><br>這兩種截然不同的特質在您體內交織，造就了您難以被輕易看透的獨特魅力與戲劇性反差。`;
-    } else {
-        descHtml += `您擁有純粹的「<b>${starName}人</b>」特質，性格特徵將會高度符合該星人的基本敘述。`;
-    }
-    
-    document.getElementById('desc').innerHTML = descHtml;
-    document.getElementById('result-box').style.display = 'block';
-}
-</script>
+<!-- 關鍵：使用 type="module" 引入主程式 -->
+<script type="module" src="./js/main.js"></script>
 
 </body>
 </html>
