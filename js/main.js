@@ -64,6 +64,9 @@ function renderResult(profile) {
     return `<tr ${i === profile.starIdx ? 'class="active"' : ''}><td>${s.range}</td><td>${s.emoji} ${s.name}</td></tr>`;
   }).join('');
 
+  // 渲染流年運勢
+  renderFortune(profile);
+  
   // 平滑滾動到結果
   setTimeout(() => resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 }
