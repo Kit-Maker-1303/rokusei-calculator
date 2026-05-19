@@ -2,7 +2,7 @@ import { STARS, JUNISHI, INYO_YANG, DSK_JUNISHI, DSK_NAMES, REIGOU_SUB, PERSONAL
 
 // 計算運命數
 export function getUnmeiSu(year, month) {
-  const base = new Date(1993, 0, 1);
+  const base = new Date(2000, 0, 1);
   const target = new Date(year, month - 1, 1);
   const delta = Math.round((target - base) / 86400000);
   return (((19 - 1 + delta) % 60) + 60) % 60 + 1;
