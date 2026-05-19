@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六星占術計算器 (精確修正版)</title>
+    <style>
+        /* 現代化、極簡的手機友善 UI 設計 */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #f0f2f5; 
+            margin: 0; 
+            padding: 20px; 
+            color: #1f1f1f; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+        .container { 
+            width: 100%;
+            max-width: 400px; 
+            background: #ffffff; 
+            padding: 30px 25px; 
+            border-radius: 24px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08); 
+        }
+        h1 { 
+            font-size: 22px; 
+            text-align: center; 
+            color: #0b57d0; 
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+        label { 
+            display: block; 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #444;
+            margin-bottom: 8px; 
+        }
+        input[type="date"] { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #c7c7c7; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            box-sizing: border-box; 
+            background-color: #f8f9fa;
+            transition: border-color 0.2s;
+        }
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #0b57d0;
+            background-color: #fff;
+        }
+        button { 
+            width: 100%; 
+            padding: 16px; 
+            margin-top: 24px; 
+            background-color: #0b57d0; 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: background 0.2s; 
+            box-shadow: 0 2px 6px rgba(11, 87, 208, 0.3);
+        }
+        button:active { 
+            background-color: #0842a0; 
+            transform: scale(0.98);
+        }
+        .result-box { 
+            margin-top: 24px; 
+            padding: 20px; 
+            background: #e8f0fe; 
+            border-radius: 16px; 
+            display: none; 
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .star-title { 
+            font-size: 22px; 
+            font-weight: 800; 
+            color: #0b57d0; 
+            text-align: center; 
+            margin-bottom: 12px; 
+        }
+        .desc { 
+            font-size: 15px; 
+            line-height: 1.6; 
+            color: #3c4043;
+        }
+        .highlight {
+            color: #d93025;
+            font-weight: bold;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>✨ 六星占術精確計算器</h1>
+    <label for="bday">請選擇您的出生日期：</label>
+    <!-- 預設帶入示範日期以方便測試 -->
+    <input type="date" id="bday" value="1993-08-27">
+    
+    <button onclick="calculate()">計算我的命格</button>
+
+    <div id="result-box" class="result-box">
+        <div id="star-title" class="star-title"></div>
+        <div id="desc" class="desc"></div>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    const dateStr = document.getElementById('bday').value;
+    if(!dateStr) {
+        alert('請先選擇您的出生日期！');
+        return;
+    }
+    
+    const [y, m, d] = dateStr.split('-').map(Number);
+    
+    // 利用西元 1993 年 8 月 27 日為基準點（星數 17）推算 60 甲子日干支
+    const refDate = new Date(Date.UTC(1993, 7, 27)); 
+    const targetDate = new Date(Date.UTC(y, m - 1, d));
+    const diffDays = Math.round((targetDate - refDate) / 86400000);
+    
+    // 計算星數 (1~60)
+    let starNum = (17 + (diffDays % 60)) % 60;
+    if (starNum <= 0) starNum += 60;
+    
+    // 判定主星與靈合星對應關係、以及大殺界生肖 (0=子, 1=丑... 11=亥)
+    let starName = "";
+    let oppositeStar = "";
+    let killZone = []; 
+    
+    if (starNum >= 1 && starNum <= 10) { 
+        starName = "土星"; oppositeStar = "天王星"; killZone = [10, 11]; // 戌亥
+    } else if (starNum >= 11 && starNum <= 20) { 
+        starName = "金星"; oppositeStar = "木星"; killZone = [8, 9];    // 申酉
+    } else if (starNum >= 21 && starNum <= 30) { 
+        starName = "火星"; oppositeStar = "水星"; killZone = [6, 7];    // 午未
+    } else if (starNum >= 31 && starNum <= 40) { 
+        starName = "天王星"; oppositeStar = "土星"; killZone = [4, 5];  // 辰巳
+    } else if (starNum >= 41 && starNum <= 50) { 
+        starName = "木星"; oppositeStar = "金星"; killZone = [2, 3];    // 寅卯
+    } else if (starNum >= 51 && starNum <= 60) { 
+        starName = "水星"; oppositeStar = "火星"; killZone = [0, 1];    // 子丑
+    }
+    
+    // 判斷陰陽 (依據出生年生肖：西元 1900 年為子年)
+    let zhi = (y - 1900) % 12;
+    if (zhi < 0) zhi += 12;
+    
+    // 偶數為陽 (+)，奇數為陰 (-)
+    const isYang = (zhi % 2 === 0); 
+    const sign = isYang ? "(+)" : "(-)";
+    
+    // 判斷是否為靈合星人 (出生年生肖剛好落在主星大殺界)
+    const isReigo = killZone.includes(zhi);
+    
+    // 組合結果標題
+    let finalResult = `${starName}人 ${sign}`;
+    if(isReigo) finalResult += ` 靈合星人`;
+    
+    document.getElementById('star-title').innerText = finalResult;
+    
+    // 組合解說文字，並修正錯誤的對應關係
+    let descHtml = `推算星數：<b>${starNum}</b>。<br><br>`;
+    
+    if (isReigo) {
+        descHtml += `您擁有特殊的靈合星人命格！<br>除了表面上具備「<b>${starName}人</b>」的性格特徵外，潛在的另一面強烈受到正對面的「<span class="highlight">${oppositeStar}人</span>」影響。<br><br>這兩種截然不同的特質在您體內交織，造就了您難以被輕易看透的獨特魅力與戲劇性反差。`;
+    } else {
+        descHtml += `您擁有純粹的「<b>${starName}人</b>」特質，性格特徵將會高度符合該星人的基本敘述。`;
+    }
+    
+    document.getElementById('desc').innerHTML = descHtml;
+    document.getElementById('result-box').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
