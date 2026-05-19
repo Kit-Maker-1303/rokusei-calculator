@@ -6,7 +6,7 @@
 <title>六星占術計算器</title>
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
 <style>
-  /* --- CSS 樣式 --- */
+  /* --- 保持原有的 CSS 樣式不變，可在最下方追加以下新樣式 --- */
   :root, [data-theme="light"] { --color-bg: #f7f4f0; --color-surface: #fdfcfa; --color-border: #ccc8c0; --color-text: #1a1714; --color-text-muted: #6b6760; --color-primary: #6b3fa0; --color-primary-highlight: #e8dff5; --color-accent: #c8a000; --color-accent-light: #fff8da; --shadow-sm: 0 1px 3px rgba(60,40,80,0.08); --shadow-md: 0 4px 16px rgba(60,40,80,0.12); --radius-md: 10px; --radius-xl: 24px; --radius-full: 9999px; --font-body: 'Satoshi','Noto Sans TC',sans-serif; --transition: 180ms ease; --text-xs: 0.875rem; --text-sm: 1rem; --text-base: 1.125rem; --text-lg: 1.25rem; --text-2xl: 2.25rem; }
   [data-theme="dark"] { --color-bg: #0f0d12; --color-surface: #16131c; --color-border: #3a3448; --color-text: #e8e4f0; --color-text-muted: #8a8498; --color-primary: #a87de0; --color-primary-highlight: #2e1f4a; --color-accent: #f0c030; --color-accent-light: #2a2000; }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -30,19 +30,32 @@
   .daissakkai-card{background:var(--color-accent-light);border:1.5px solid var(--color-accent);border-radius:var(--radius-md);padding:1.25rem;margin-top:0.75rem;} .year-tag{display:inline-block;background:rgba(200,160,0,0.2);color:var(--color-accent);border-radius:var(--radius-full);padding:0.15rem 0.6rem;font-size:var(--text-xs);font-weight:600;margin:0.15rem;}
   .personality-text{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7;} .reigou-box{margin-top:1rem;padding:1rem;background:#faf5ff;border:1.5px solid var(--color-primary-highlight);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-text-muted);display:none;}
   .range-table{width:100%;border-collapse:collapse;font-size:var(--text-sm);margin-top:0.5rem;} .range-table td{padding:0.5rem 0.75rem;border-bottom:1px solid var(--color-border);} .range-table tr.active td{background:var(--color-primary-highlight);color:var(--color-primary);font-weight:700;}
-  /* 流年運勢擴充樣式 */
+
+  /* --- 以下為新功能追加的 CSS 樣式 --- */
   .fortune-container { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
-  @media(min-width: 480px) { .fortune-container.is-reigou { grid-template-columns: 1fr 1fr; } }
-  .fortune-card { background: var(--color-bg); border-radius: var(--radius-lg); padding: 1.5rem; border-left: 4px solid var(--color-border); }
-  .sub-fortune { border-style: dashed; border-width: 1.5px; border-color: var(--color-border); border-left: 4px dashed var(--color-border); background: transparent; }
-  .f-year { font-size: var(--text-xs); color: var(--color-text-muted); font-weight: 700; margin-bottom: 0.5rem; }
-  .f-name { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; }
-  .f-desc { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
+  .fortune-card { background: var(--color-bg); border-radius: var(--radius-md); padding: 1.25rem; border-left: 4px solid var(--color-border); }
+  .f-year { font-size: var(--text-xs); color: var(--color-text-muted); font-weight: 700; }
+  .f-name { font-size: 1.5rem; font-weight: 800; margin: 0.25rem 0; }
+  .f-desc { font-size: var(--text-sm); color: var(--color-text-muted); }
   .f-type-excellent { color: #d93025; border-left-color: #d93025; }
   .f-type-good { color: var(--color-primary); border-left-color: var(--color-primary); }
   .f-type-bad { color: #f29900; border-left-color: #f29900; }
   .f-type-worst { color: #5f6368; border-left-color: #5f6368; }
+  
+  .compat-input-box { background: var(--color-bg); padding: 1.25rem; border-radius: var(--radius-md); margin-top: 1rem; }
+  .compat-card { display: flex; gap: 1.5rem; background: var(--color-bg); padding: 1.5rem; border-radius: var(--radius-md); margin-top: 1rem; align-items: center; border: 1.5px solid var(--color-border); }
+  .compat-score-circle { width: 80px; height: 80px; border-radius: 50%; background: var(--color-primary); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 80px; }
+  .compat-score-val { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+  .compat-score-lbl { font-size: 0.65rem; opacity: 0.8; }
+  .compat-title { font-weight: 700; color: var(--color-primary); margin: 0.25rem 0; }
+  .compat-desc { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .reigou-mini-tag { background: #ffe066; color: #332200; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 700; }
+  .btn-secondary { width: 100%; padding: 0.75rem; background: transparent; border: 1.5px solid var(--color-primary); color: var(--color-primary); border-radius: var(--radius-md); font-weight: 700; margin-top: 0.75rem; }
+  .btn-export-style { width: 100%; padding: 1rem; background: #202124; color: #fff; border-radius: var(--radius-md); font-weight: 700; font-size: 1rem; margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+  [data-theme="dark"] .btn-export-style { background: #e8eaed; color: #202124; }
 </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="app-container">
@@ -53,19 +66,22 @@
     </div>
     <button class="theme-toggle" data-theme-toggle>🌙</button>
   </header>
+
   <div class="hero-card">
     <div class="hero-title">找出你的<br>命運之星</div>
     <div class="hero-subtitle">根據細木數子六星占術，輸入生日即可算出你的星人命格</div>
   </div>
+
   <div class="form-card">
     <h2>✦ 輸入生日</h2>
     <div class="form-row">
-      <div class="form-group"><label>年份</label><input type="number" id="year" placeholder="2000"></div>
-      <div class="form-group"><label>月份</label><input type="number" id="month" placeholder="1"></div>
-      <div class="form-group"><label>日期</label><input type="number" id="day" placeholder="1"></div>
+      <div class="form-group"><label>年份</label><input type="number" id="year" placeholder="1993"></div>
+      <div class="form-group"><label>月份</label><input type="number" id="month" placeholder="8"></div>
+      <div class="form-group"><label>日期</label><input type="number" id="day" placeholder="26"></div>
     </div>
     <button class="btn-calculate" id="calculate-btn">⭐ 開始占術計算</button>
   </div>
+
   <div class="result-card" id="result">
     <div class="result-header">
       <div class="result-star-badge" id="result-badge">命格結果</div>
@@ -75,6 +91,7 @@
     <div class="result-body">
       <div class="result-steps"><h3>📐 計算過程</h3><div class="step-list" id="step-list"></div></div>
       <div class="result-divider"></div>
+      
       <div class="trait-grid">
         <div class="trait-item"><div class="trait-label">命數</div><div class="trait-value" id="trait-unmei">—</div></div>
         <div class="trait-item"><div class="trait-label">星數</div><div class="trait-value" id="trait-hoshi">—</div></div>
@@ -82,28 +99,49 @@
         <div class="trait-item"><div class="trait-label">陰陽</div><div class="trait-value" id="trait-inyo">—</div></div>
       </div>
       <div class="result-divider"></div>
+      
       <div class="personality-section">
         <h3>🌟 星人特質</h3>
         <p class="personality-text" id="personality-text"></p>
         <div class="reigou-box" id="reigou-box"></div>
       </div>
+      
       <div style="margin-top:1.5rem;">
         <h3>⏳ 今年運勢</h3>
         <div id="fortune-container" class="fortune-container"></div>
       </div>
+      
       <div class="daissakkai-card">
         <div class="daissakkai-title">⚡ 近年大殺界（天中殺）</div>
         <div id="daissakkai-years"></div>
       </div>
+
+      <div class="result-divider"></div>
+      <div class="personality-section">
+        <h3>💞 相性合盤（輸入對方生日）</h3>
+        <div class="compat-input-box">
+          <div class="form-row">
+            <div class="form-group"><label>對方年份</label><input type="number" id="yearB" placeholder="1995"></div>
+            <div class="form-group"><label>對方月份</label><input type="number" id="monthB" placeholder="1"></div>
+            <div class="form-group"><label>對方日期</label><input type="number" id="dayB" placeholder="1"></div>
+          </div>
+          <button class="btn-secondary" id="compat-btn">💖 開始合盤分析</button>
+        </div>
+        <div id="compat-result-container" style="display:none;"></div>
+      </div>
+      
       <div style="margin-top:1.5rem;">
         <div class="result-steps"><h3>📊 星數對照表</h3><table class="range-table" id="range-table"></table></div>
       </div>
     </div>
   </div>
+
+  <button class="btn-export-style" id="btn-export" style="display:none;" onclick="document.getElementById('btn-export').blur();">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    儲存並下載精美命盤圖片
+  </button>
 </div>
 
-<!-- 關鍵：使用 type="module" 引入主程式 -->
 <script type="module" src="./js/main.js"></script>
-
 </body>
 </html>
