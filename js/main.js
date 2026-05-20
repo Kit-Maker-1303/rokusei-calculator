@@ -67,6 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     renderFortune(currentProfile);
 
+    // 💡 [修正] 補回：步驟渲染
+    const hoshiRaw = (currentProfile.unmei - 1) + currentProfile.day;
+    const stepsHTML = `
+      <div class="step-item"><div class="step-num">1</div><div class="step-text"><strong>查運命數</strong>：${currentProfile.year}年${currentProfile.month}月 → 運命數 = <strong>${currentProfile.unmei}</strong></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-text"><strong>計算星數</strong>：(${currentProfile.unmei} - 1) + ${currentProfile.day} = ${hoshiRaw}${hoshiRaw > 60 ? ` → 超過60，減60 = <strong>${currentProfile.hoshi}</strong>` : ` = <strong>${currentProfile.hoshi}</strong>`}</div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-text"><strong>對應星人</strong>：星數 ${currentProfile.hoshi} 在 ${currentProfile.star.range} → <strong>${currentProfile.star.name}</strong></div></div>
+    `;
+    document.getElementById('step-list').innerHTML = stepsHTML;
+
+    // 💡 [修正] 補回：星數對照表渲染
+    document.getElementById('range-table').innerHTML = STARS.map((s, i) => {
+      return `<tr ${i === currentProfile.starIdx ? 'class="active"' : ''}><td>${s.range}</td><td>${s.emoji} ${s.name}</td></tr>`;
+    }).join('');
+
+    // 💡 [修正] 補回：顯示圖片匯出按鈕
+    document.getElementById('btn-export').style.display = 'flex';
+
     // 重設並隱藏上一次的合盤結果
     document.getElementById('compat-result-container').style.display = 'none';
     document.getElementById('yearB').value = '';
